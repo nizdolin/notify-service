@@ -6,16 +6,16 @@ from typing import Union
 
 
 class APPSettings(BaseSettings):
-    PROJECT_NAME: str = 'skill_notify'
+    PROJECT_NAME: str = 'notify'
     DEBUG: bool = True
     DATABASE_URI: PostgresDsn
     ROOT_PATH: str = ''
+    API_KEY: str
 
     INFO_LOG_FILE = 'app/logs/' + PROJECT_NAME + '_info.log'
     ERROR_LOG_FILE = 'app/logs/' + PROJECT_NAME + '_error.log'
 
     AUTH_SERVICE_URL: str
-
     OPENAPI_URL: Union[str, None]
 
     class Config:

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy.dialects.postgresql import TEXT
+from sqlalchemy.dialects.postgresql import JSON, TEXT
 from sqlmodel import Column, Enum, Field, SQLModel
 
 from app.db.enums import NotificationType
@@ -27,3 +27,4 @@ class Notification(BaseModel, table=True):
     created_at: datetime = Field(default_factory=datetime.now, nullable=False)
     text: str = Field(sa_column=Column(TEXT))
     viewed: bool = False
+    extra: dict = Field(default={}, sa_column=Column(JSON))

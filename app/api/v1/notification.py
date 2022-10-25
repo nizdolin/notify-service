@@ -1,7 +1,9 @@
 import httpx
 from fastapi import APIRouter, status, Depends, Request, HTTPException
+from fastapi.openapi.models import APIKey
 from sqlmodel import select, Session
 
+from app.auth import get_api_key
 from app.core.config import get_app_settings
 from app.db.db import get_session
 from app.db.models import *
@@ -11,8 +13,9 @@ config = get_app_settings()
 router = APIRouter()
 
 
-@router.post('/', response_model=Notification)
-async def create_notification(notification: Notification, session: Session = Depends(get_session)):
+@router.post('/', response_model=Notification, status_code=status.HTTP_201_CREATED,)
+async def create_notification(notification: Notification, session: Session = Depends(get_session),
+                              api_key: APIKey = Depends(get_api_key)):
     session.add(notification)
     session.commit()
     session.refresh(notification)

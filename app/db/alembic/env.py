@@ -6,6 +6,8 @@ from alembic import context
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+from sqlmodel import SQLModel
+
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -15,15 +17,15 @@ BASE_DIR = os.path.dirname(
     )
 )
 sys.path.insert(0, BASE_DIR)
-# load_dotenv(os.path.join(BASE_DIR, ".env"))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
+from app.db.models import *
 
 config = context.config
 fileConfig(config.config_file_name)
-config.set_main_option('sqlalchemy.url', 'postgres://skill_notify@172.16.103.142/order_safe')
+config.set_main_option('sqlalchemy.url', os.environ["DATABASE_URI"])
 
-from app.db import models
-
-target_metadata = models.Base.metadata
+target_metadata = SQLModel.metadata
 
 
 def run_migrations_offline():

@@ -8,7 +8,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - notify/.env
+      - .env
     ports:
       - '6432:5432'
     networks:
@@ -24,7 +24,7 @@ services:
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     restart: always
     env_file:
-      - notify/.env
+      - .env
     networks:
       - skill_notify_network
     depends_on:
@@ -37,6 +37,8 @@ services:
   nginx:
     image: nginx:latest
     restart: 'always'
+    env_file:
+      - .env
     networks:
       - skill_notify_network
     depends_on:
